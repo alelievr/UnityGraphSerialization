@@ -53,6 +53,7 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\Anchor.cs" />
      <Compile Include="Assets\Scripts\AnchorGroup.cs" />
+     <Compile Include="Assets\Scripts\AnchorLinkTable.cs" />
      <Compile Include="Assets\Scripts\Graph.cs" />
      <Compile Include="Assets\Scripts\Link.cs" />
      <Compile Include="Assets\Scripts\Node.cs" />

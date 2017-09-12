@@ -42,7 +42,11 @@ public class NodeEditor : EditorWindow {
 		{
 			EditorGUILayout.LabelField(graph.GetHashCode().ToString());
 			if (GUILayout.Button("Create new node"))
-				graph.nodes.Add(ScriptableObject.CreateInstance< Node >());
+			{
+				Node n = ScriptableObject.CreateInstance< Node >();
+				AssetDatabase.AddObjectToAsset(n, graph);
+				graph.nodes.Add(n);
+			}
 
 			scrollbar = EditorGUILayout.BeginScrollView(scrollbar);
 			{
@@ -94,7 +98,11 @@ public class NodeEditor : EditorWindow {
 					}
 					EditorGUILayout.LabelField(anchorGroup.name + anchorGroup + ", node: " + anchorGroup.nodeRef);
 					if (GUILayout.Button("Add anchor"))
+					{
+						Anchor a = new Anchor();
+						a.GUID = System.Guid.NewGuid().ToString();
 						anchorGroup.anchors.Add(new Anchor());
+					}
 					if (GUILayout.Button("Clear anchors"))
 						anchorGroup.anchors.Clear();
 				}
@@ -110,6 +118,7 @@ public class NodeEditor : EditorWindow {
 						{
 							Link l = new Link();
 
+							l.GUID = System.Guid.NewGuid().ToString();
 							l.fromAnchor = anchor;
 							l.toAnchor = SelectRandomAnchorExcept(anchor);
 							l.color = Random.ColorHSV();

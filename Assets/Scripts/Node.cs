@@ -6,15 +6,15 @@ using UnityEngine;
 public class Node : ScriptableObject {
 
 	[System.NonSerialized]
-	public Graph				graph;
+	public Graph				graphRef;
 
 	public List< AnchorGroup >	inputAnchors = new List< AnchorGroup >();
 	public List< AnchorGroup >	outputAnchors = new List< AnchorGroup >();
 
 	public void OnBeforeSerialize(Graph g)
 	{
-		graph = g;
-		Debug.Log("OnBeforeDeserilized Node, from graph: " + graph);
+		graphRef = g;
+		Debug.Log("OnBeforeDeserilized Node, from graph: " + graphRef);
 		foreach (var a in inputAnchors)
 			a.OnBeforeDeserialize(this);
 		foreach (var a in outputAnchors)

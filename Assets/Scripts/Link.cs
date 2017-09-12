@@ -5,8 +5,9 @@ using UnityEngine;
 [System.Serializable]
 public class Link
 {
-
 	public Color			color;
+
+	public string			GUID;
 
 	[System.NonSerialized]
 	public Anchor			fromAnchor;
@@ -15,7 +16,7 @@ public class Link
 
 	public void OnBeforeDeserialize(Anchor anchor)
 	{
-		
+
 		Debug.Log("[Link] OnBeforeDeserialize: " + anchor + ", type: " + anchor.groupRef.type);
 		if (anchor.groupRef.type == AnchorType.Input)
 			toAnchor = anchor;
