@@ -5,39 +5,43 @@ using System.Linq;
 
 [System.Serializable]
 public class AnchorLinkTable {
+	
+	[System.Serializable]
+	public class LinkGUIDDict : SerializableDictionary< string, Link > {}
+	[SerializeField]
+	public LinkGUIDDict				linkGUIDDict = new LinkGUIDDict();
 
-	public List< string >			fromAnchorGUID = new List< string >();
-	public List< string >			toAnchorGUID = new List< string >();
-	public List< string >			linksGUID = new List< string >();
+	[System.Serializable]
+	//								anchor GUID, list of link
+	public class LinkDict : SerializableDictionary< string, List< string > > {}
+	[SerializeField]
+	public LinkDict 				linkDict = new LinkDict();
 
-	public List< Link >				links = new List< Link >();
-
-	public List< Anchor >			anchors = new List< Anchor >();
-
-	public void AddLink(string fromGUID, string toGUID, Link l)
+	public void AddLink(string GUID, Link l)
 	{
-		fromAnchorGUID.Add(fromGUID);
-		toAnchorGUID.Add(toGUID);
-		linksGUID.Add(l.GUID);
-		links.Add(l);
+		if (linkDict[GUID] == null)
+			linkDict[GUID] = new List< string >();
+		linkDict[GUID].Add(l.GUID);;
+		linkGUIDDict[l.GUID] = l;
 	}
 
-	public void RemoveLink(string fromGUID, string toGUID, string lGUID)
+	public void RemoveLink(string GUID, Link l)
 	{
-		fromAnchorGUID.Remove(fromGUID);
-		toAnchorGUID.Remove(toGUID);
-		int index = linksGUID.FindIndex(l => l == lGUID);
-		links.RemoveAt(index);
-		linksGUID.RemoveAt(index);
+		linkDict[GUID].Remove(l.GUID);
+		linkGUIDDict.Remove(l.GUID);
 	}
 
-	public Link GetLinkFromGUID(string guid)
+	public List< string > GetLinksFromAnchor(string GUID)
 	{
-		return links.FirstOrDefault(l => l.GUID == guid);
+		List< string > ret = null;
+		linkDict.TryGetValue(GUID, out ret);
+		return ret;
 	}
 
-	public Anchor GetAnchorFromGUID(string guid)
+	public Link		GetLinkFromGUID(string linkGUID)
 	{
-		return anchors.FirstOrDefault(a => a.GUID == guid);
+		Link ret = null;
+		linkGUIDDict.TryGetValue(linkGUID, out ret);
+		return ret;
 	}
 }

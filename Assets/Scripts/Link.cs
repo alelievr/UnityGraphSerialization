@@ -14,16 +14,6 @@ public class Link
 	[System.NonSerialized]
 	public Anchor			toAnchor;
 
-	public void OnBeforeDeserialize(Anchor anchor)
-	{
-
-		Debug.Log("[Link] OnBeforeDeserialize: " + anchor + ", type: " + anchor.groupRef.type);
-		if (anchor.groupRef.type == AnchorType.Input)
-			toAnchor = anchor;
-		else
-			fromAnchor = anchor;
-	}
-	
 	public override string ToString()
 	{
 		return "[" + GetHashCode().ToString() + "]";

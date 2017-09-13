@@ -14,31 +14,26 @@ public class Anchor
 	[System.NonSerialized]
 	public List< Link >		links = new List< Link >();
 
-	public void OnBeforeDeserialize(AnchorGroup group)
+	public void OnAfterDeserialize(AnchorGroup group)
 	{
 		groupRef = group;
 		Debug.Log("[Anchor] Received OnBeforeDeserialized, group: " + groupRef + ", link count: " + links.Count);
 
-		int index = 0;
-		var fGUID = groupRef.nodeRef.graphRef.anchorLinkTable.fromAnchorGUID;
-		var tGUID = groupRef.nodeRef.graphRef.anchorLinkTable.toAnchorGUID;
-		var lGUID = groupRef.nodeRef.graphRef.anchorLinkTable.linksGUID;
-		if (groupRef.type == AnchorType.Input)
-			foreach (var guid in fGUID)
-			{
-				if (guid == GUID)
-				{
-					var link = groupRef.nodeRef.graphRef.anchorLinkTable.GetLinkFromGUID(lGUID[index]);
-					link.fromAnchor = this;
-					link.toAnchor = groupRef.nodeRef.graphRef.anchorLinkTable.GetAnchorFromGUID(tGUID[index]);
-					links.Add(link);
-				}
-				index++;
-			}
-		else
-			index = tGUID.FindIndex(guid => guid == GUID);
+		var linkGUIDs = groupRef.nodeRef.graphRef.anchorLinkTable.GetLinksFromAnchor(GUID);
+
+ 		//if there is no links, quit
+		if (linkGUIDs == null)
+			return ;
 		
-		
+		foreach (var linkGUID in linkGUIDs)
+		{
+			var linkInstance = groupRef.nodeRef.graphRef.anchorLinkTable.GetLinkFromGUID(linkGUID);
+			links.Add(linkInstance);
+			if (groupRef.type == AnchorType.Input)
+				linkInstance.fromAnchor = this;
+			else
+				linkInstance.toAnchor = this;
+		}
 	}
 	
 	public override string ToString()

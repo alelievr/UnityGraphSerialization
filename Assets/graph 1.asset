@@ -15,6 +15,38 @@ MonoBehaviour:
   - {fileID: 114378416305918158}
   - {fileID: 114069153285226290}
   - {fileID: 114276055256862610}
+  anchorLinkTable:
+    linkGUIDDict:
+      _Buckets: ffffffffffffffffffffffff
+      _HashCodes: 000000000000000000000000
+      _Next: 000000000000000000000000
+      _Count: 0
+      _Version: 0
+      _FreeList: -1
+      _FreeCount: 0
+      _Keys:
+      - 
+      - 
+      - 
+      _Values:
+      - color: {r: 0, g: 0, b: 0, a: 0}
+        GUID: 
+      - color: {r: 0, g: 0, b: 0, a: 0}
+        GUID: 
+      - color: {r: 0, g: 0, b: 0, a: 0}
+        GUID: 
+    linkDict:
+      _Buckets: ffffffffffffffffffffffff
+      _HashCodes: 000000000000000000000000
+      _Next: 000000000000000000000000
+      _Count: 0
+      _Version: 0
+      _FreeList: -1
+      _FreeCount: 0
+      _Keys:
+      - 
+      - 
+      - 
 --- !u!114 &114069153285226290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26,8 +58,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9217f2e9ed44c4e2d8157d184f81990c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputAnchors: []
-  outputAnchors: []
+  inputAnchors:
+  - type: 1
+    name: 
+    anchors:
+    - GUID: 
+    - GUID: 
+  - type: 1
+    name: 
+    anchors:
+    - GUID: 
+  - type: 1
+    name: 
+    anchors:
+    - GUID: 
+  outputAnchors:
+  - type: 1
+    name: 
+    anchors:
+    - GUID: 
+  - type: 0
+    name: 
+    anchors:
+    - GUID: 
 --- !u!114 &114276055256862610
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40,7 +93,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputAnchors: []
-  outputAnchors: []
+  outputAnchors:
+  - type: 1
+    name: 
+    anchors:
+    - GUID: 
+    - GUID: 
+  - type: 0
+    name: 
+    anchors:
+    - GUID: 
+    - GUID: 
+    - GUID: 
+  - type: 0
+    name: 
+    anchors:
+    - GUID: 
+  - type: 0
+    name: 
+    anchors:
+    - GUID: 
+    - GUID: 
 --- !u!114 &114378416305918158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52,5 +125,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9217f2e9ed44c4e2d8157d184f81990c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputAnchors: []
-  outputAnchors: []
+  inputAnchors:
+  - type: 1
+    name: 
+    anchors:
+    - GUID: 
+    - GUID: 
+    - GUID: 
+  - type: 0
+    name: 
+    anchors:
+    - GUID: 
+    - GUID: 
+    - GUID: 
+    - GUID: 
+  outputAnchors:
+  - type: 1
+    name: 
+    anchors:
+    - GUID: 
+    - GUID: 
+    - GUID: 
+  - type: 0
+    name: 
+    anchors:
+    - GUID: 
+    - GUID: 

@@ -23,7 +23,7 @@ public class AnchorGroup
 		nodeRef = node;
 		Debug.Log("[AnchorGroup] received OnDeserilized, node: " + nodeRef + ", anchors count: " + anchors.Count);
 		foreach (var a in anchors)
-			a.OnBeforeDeserialize(this);
+			a.OnAfterDeserialize(this);
 	}
 
 	public AnchorGroup(AnchorType type)

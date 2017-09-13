@@ -122,6 +122,8 @@ public class NodeEditor : EditorWindow {
 							l.fromAnchor = anchor;
 							l.toAnchor = SelectRandomAnchorExcept(anchor);
 							l.color = Random.ColorHSV();
+							graph.anchorLinkTable.AddLink(l.fromAnchor.GUID, l);
+							graph.anchorLinkTable.AddLink(l.toAnchor.GUID, l);
 							l.fromAnchor.links.Add(l);
 							l.toAnchor.links.Add(l);
 						}
