@@ -9,6 +9,7 @@ public class Anchor
 	[System.NonSerialized]
 	public AnchorGroup		groupRef;
 
+	[SerializeField]
 	public string			GUID;
 
 	[System.NonSerialized]
@@ -38,6 +39,6 @@ public class Anchor
 	
 	public override string ToString()
 	{
-		return "[" + GetHashCode().ToString() + "]";
+		return "[" + GUID + "]";
 	}
 }

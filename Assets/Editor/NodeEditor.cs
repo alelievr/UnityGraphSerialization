@@ -44,6 +44,7 @@ public class NodeEditor : EditorWindow {
 			if (GUILayout.Button("Create new node"))
 			{
 				Node n = ScriptableObject.CreateInstance< Node >();
+				n.graphRef = graph;
 				AssetDatabase.AddObjectToAsset(n, graph);
 				graph.nodes.Add(n);
 			}
@@ -62,8 +63,8 @@ public class NodeEditor : EditorWindow {
 					EditorGUILayout.BeginHorizontal();
 					{
 						EditorGUILayout.LabelField(node.name);
-						DrawAnchorGroup("input anchors", node.inputAnchors, new Color(0, .6f, .6f));
-						DrawAnchorGroup("output anchors", node.outputAnchors, new Color(0, .8f, .8f));
+						DrawAnchorGroup("input anchors", node.inputAnchors, new Color(0, .6f, .6f), node);
+						DrawAnchorGroup("output anchors", node.outputAnchors, new Color(0, .8f, .8f), node);
 						EditorGUILayout.Space();
 						EditorGUILayout.Space();
 					}
@@ -76,16 +77,24 @@ public class NodeEditor : EditorWindow {
 		Repaint();
 	}
 
-	void DrawAnchorGroup(string title, List< AnchorGroup > anchorGroups, Color c)
+	void DrawAnchorGroup(string title, List< AnchorGroup > anchorGroups, Color c, Node node)
 	{
-		Rect r = EditorGUILayout.BeginVertical(GUILayout.Width(550));
+		Rect r = EditorGUILayout.BeginVertical(GUILayout.Width(650));
 		{
 			EditorGUI.DrawRect(r, c);
 			EditorGUILayout.LabelField(title);
 			if (GUILayout.Button("Add input anchorGroup"))
-				anchorGroups.Add(new AnchorGroup(AnchorType.Input));
+			{
+				AnchorGroup	ag = new AnchorGroup(AnchorType.Input);
+				ag.nodeRef = node;
+				anchorGroups.Add(ag);
+			}
 			if (GUILayout.Button("Add output anchorGroup"))
-				anchorGroups.Add(new AnchorGroup(AnchorType.Output));
+			{
+				AnchorGroup ag = new AnchorGroup(AnchorType.Output);
+				ag.nodeRef = node;
+				anchorGroups.Add(ag);
+			}
 			EditorGUILayout.Space();
 			foreach (var anchorGroup in anchorGroups)
 			{
@@ -100,20 +109,20 @@ public class NodeEditor : EditorWindow {
 					if (GUILayout.Button("Add anchor"))
 					{
 						Anchor a = new Anchor();
+						a.groupRef = anchorGroup;
 						a.GUID = System.Guid.NewGuid().ToString();
-						anchorGroup.anchors.Add(new Anchor());
+						anchorGroup.anchors.Add(a);
 					}
 					if (GUILayout.Button("Clear anchors"))
 						anchorGroup.anchors.Clear();
 				}
 				EditorGUILayout.EndHorizontal();
-				int i = 0;
 				foreach (var anchor in anchorGroup.anchors)
 				{
-					Rect r2 = EditorGUILayout.BeginHorizontal(GUILayout.Width(450));
+					Rect r2 = EditorGUILayout.BeginHorizontal(GUILayout.Width(550));
 					{
 						EditorGUI.DrawRect(r2, new Color(.5f, .5f, .5f));
-						EditorGUILayout.LabelField("anchor #" + i++ + anchor + ", AnchorGroup: " + anchor.groupRef);
+						EditorGUILayout.LabelField("anchor " + anchor + ", AnchorGroup: " + anchor.groupRef);
 						if (GUILayout.Button("Add link"))
 						{
 							Link l = new Link();
@@ -122,6 +131,7 @@ public class NodeEditor : EditorWindow {
 							l.fromAnchor = anchor;
 							l.toAnchor = SelectRandomAnchorExcept(anchor);
 							l.color = Random.ColorHSV();
+							Debug.Log("fromAnchor GUID: " + l.fromAnchor.GUID);
 							graph.anchorLinkTable.AddLink(l.fromAnchor.GUID, l);
 							graph.anchorLinkTable.AddLink(l.toAnchor.GUID, l);
 							l.fromAnchor.links.Add(l);
@@ -145,13 +155,18 @@ public class NodeEditor : EditorWindow {
 								EditorGUI.DrawRect(r4, link.color);
 								string h1 = (link.fromAnchor == null) ? "null" : link.fromAnchor.ToString();
 								string h2 = (link.toAnchor == null) ? "null" : link.toAnchor.ToString();
-								EditorGUILayout.LabelField(link + " | rom: " + h1 + ", to: " + h2);
-								if (GUILayout.Button("Remove"))
+								EditorGUILayout.BeginVertical();
 								{
-									link.fromAnchor.links.Remove(link);
-									link.toAnchor.links.Remove(link);
-									return ;
+									EditorGUILayout.LabelField(link.ToString());
+									EditorGUILayout.LabelField("from: " + h1 + ", to: " + h2);
+									if (GUILayout.Button("Remove node", GUILayout.Width(100)))
+									{
+										link.fromAnchor.links.Remove(link);
+										link.toAnchor.links.Remove(link);
+										return ;
+									}
 								}
+								EditorGUILayout.EndVertical();
 							}
 							EditorGUILayout.EndHorizontal();
 						}
