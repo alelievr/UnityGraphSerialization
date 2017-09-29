@@ -46,6 +46,7 @@ public class NodeEditor : EditorWindow {
 				Node n = ScriptableObject.CreateInstance< Node >();
 				n.graphRef = graph;
 				AssetDatabase.AddObjectToAsset(n, graph);
+				AssetDatabase.SaveAssets();
 				graph.nodes.Add(n);
 			}
 
@@ -58,6 +59,8 @@ public class NodeEditor : EditorWindow {
 					if (node == null || GUILayout.Button("Remove node " + node))
 					{
 						graph.nodes.Remove(node);
+						DestroyImmediate(node, true);
+						AssetDatabase.SaveAssets();
 						return ;
 					}
 					EditorGUILayout.BeginHorizontal();
@@ -137,7 +140,7 @@ public class NodeEditor : EditorWindow {
 							l.fromAnchor.links.Add(l);
 							l.toAnchor.links.Add(l);
 						}
-						if (GUILayout.Button("Remove"))
+						if (GUILayout.Button("Remove anchor"))
 						{
 							anchorGroup.anchors.Remove(anchor);
 							return ;
@@ -159,8 +162,10 @@ public class NodeEditor : EditorWindow {
 								{
 									EditorGUILayout.LabelField(link.ToString());
 									EditorGUILayout.LabelField("from: " + h1 + ", to: " + h2);
-									if (GUILayout.Button("Remove node", GUILayout.Width(100)))
+									if (GUILayout.Button("Remove link", GUILayout.Width(100)))
 									{
+										graph.anchorLinkTable.RemoveLink(link.fromAnchor.GUID, link);
+										graph.anchorLinkTable.RemoveLink(link.toAnchor.GUID, link);
 										link.fromAnchor.links.Remove(link);
 										link.toAnchor.links.Remove(link);
 										return ;

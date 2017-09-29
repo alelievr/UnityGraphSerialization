@@ -16,6 +16,6 @@ public class Link
 
 	public override string ToString()
 	{
-		return "[" + GUID + "]";
+		return "Link [" + GUID + "]";
 	}
 }
